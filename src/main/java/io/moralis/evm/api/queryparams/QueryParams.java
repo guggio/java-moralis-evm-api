@@ -23,4 +23,11 @@ public interface QueryParams {
     return new ListQueryParams<>("token_addresses", tokenAddresses, Address::getAddress);
   }
 
+  static QueryParams ownerAddress(Address owner) {
+    return new BaseQueryParams<>("owner_address", owner, Address::getAddress);
+  }
+
+  static QueryParams spenderAddress(Address spender) {
+    return new BaseQueryParams<>("spender_address", spender, Address::getAddress);
+  }
 }
