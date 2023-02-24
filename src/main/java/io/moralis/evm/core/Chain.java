@@ -1,7 +1,7 @@
 package io.moralis.evm.core;
 
 public enum Chain {
-  ETH, POLYGON;
+  ETH, POLYGON, BSC;
 
   @Override
   public String toString() {

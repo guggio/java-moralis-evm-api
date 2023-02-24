@@ -1,7 +1,8 @@
-package io.moralis.evm.api;
+package io.moralis.evm.api.token;
 
+import io.moralis.evm.api.BaseApi;
+import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
-import io.moralis.evm.api.token.TokenApi;
 import io.moralis.evm.api.token.balance.TokenBalanceApi;
 import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;

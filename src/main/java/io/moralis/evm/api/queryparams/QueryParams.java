@@ -2,6 +2,7 @@ package io.moralis.evm.api.queryparams;
 
 import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.Exchange;
 
 import java.util.List;
 
@@ -29,5 +30,9 @@ public interface QueryParams {
 
   static QueryParams spenderAddress(Address spender) {
     return new BaseQueryParams<>("spender_address", spender, Address::getAddress);
+  }
+
+  static QueryParams exchange(Exchange exchange) {
+    return new BaseQueryParams<>("exchange", exchange);
   }
 }
