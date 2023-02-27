@@ -8,6 +8,8 @@ import io.moralis.evm.api.token.balance.TokenBalanceApi;
 import io.moralis.evm.api.token.balance.TokenBalanceApiImpl;
 import io.moralis.evm.api.token.price.TokenPriceApi;
 import io.moralis.evm.api.token.price.TokenPriceApiImpl;
+import io.moralis.evm.api.token.transfer.TokenTransferApi;
+import io.moralis.evm.api.token.transfer.TokenTransferApiImpl;
 import io.moralis.evm.core.Address;
 
 public class TokenApiImpl extends BaseApiImpl implements TokenApi {
@@ -34,6 +36,11 @@ public class TokenApiImpl extends BaseApiImpl implements TokenApi {
   @Override
   public TokenPriceApi price(Address contract) {
     return new TokenPriceApiImpl(this, contract);
+  }
+
+  @Override
+  public TokenTransferApi transfer() {
+    return new TokenTransferApiImpl(this);
   }
 
 }

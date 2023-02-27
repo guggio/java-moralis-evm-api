@@ -4,6 +4,7 @@ import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
 import io.moralis.evm.core.Exchange;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface QueryParams {
@@ -14,6 +15,10 @@ public interface QueryParams {
 
   static QueryParams chain(Chain chain) {
     return new BaseQueryParams<>("chain", chain);
+  }
+
+  static QueryParams fromBlock(long blockNumber) {
+    return new BaseQueryParams<>("from_block", blockNumber);
   }
 
   static QueryParams toBlock(long blockNumber) {
@@ -34,5 +39,25 @@ public interface QueryParams {
 
   static QueryParams exchange(Exchange exchange) {
     return new BaseQueryParams<>("exchange", exchange);
+  }
+
+  static QueryParams fromDate(LocalDateTime fromDate) {
+    return new BaseQueryParams<>("from_date", fromDate);
+  }
+
+  static QueryParams toDate(LocalDateTime toDate) {
+    return new BaseQueryParams<>("to_date", toDate);
+  }
+
+  static QueryParams cursor(String cursor) {
+    return new BaseQueryParams<>("cursor", cursor);
+  }
+
+  static QueryParams disableTotal(boolean disableTotal) {
+    return new BaseQueryParams<>("disable_total", disableTotal);
+  }
+
+  static QueryParams pageSize(int pageSize) {
+    return new BaseQueryParams<>("limit", pageSize);
   }
 }
