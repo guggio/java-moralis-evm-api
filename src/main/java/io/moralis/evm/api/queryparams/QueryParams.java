@@ -25,6 +25,10 @@ public interface QueryParams {
     return new BaseQueryParams<>("to_block", blockNumber);
   }
 
+  static QueryParams addresses(List<Address> addresses) {
+    return new ListQueryParams<>("addresses", addresses, Address::getAddress);
+  }
+
   static QueryParams tokenAddresses(List<Address> tokenAddresses) {
     return new ListQueryParams<>("token_addresses", tokenAddresses, Address::getAddress);
   }

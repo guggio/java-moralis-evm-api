@@ -6,6 +6,8 @@ import io.moralis.evm.api.token.allowance.TokenAllowanceApi;
 import io.moralis.evm.api.token.allowance.TokenAllowanceApiImpl;
 import io.moralis.evm.api.token.balance.TokenBalanceApi;
 import io.moralis.evm.api.token.balance.TokenBalanceApiImpl;
+import io.moralis.evm.api.token.metadata.TokenMetadataApi;
+import io.moralis.evm.api.token.metadata.TokenMetadataApiImpl;
 import io.moralis.evm.api.token.price.TokenPriceApi;
 import io.moralis.evm.api.token.price.TokenPriceApiImpl;
 import io.moralis.evm.api.token.transfer.TokenTransferApi;
@@ -41,6 +43,11 @@ public class TokenApiImpl extends BaseApiImpl implements TokenApi {
   @Override
   public TokenTransferApi transfer() {
     return new TokenTransferApiImpl(this);
+  }
+
+  @Override
+  public TokenMetadataApi metadata() {
+    return new TokenMetadataApiImpl(this);
   }
 
 }
