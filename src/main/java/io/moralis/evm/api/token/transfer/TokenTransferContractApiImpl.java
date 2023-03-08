@@ -9,71 +9,70 @@ import io.moralis.evm.model.Erc20TransactionCollection;
 
 import java.time.LocalDateTime;
 
-public class TokenTransferWalletApiImpl extends ExecutingApi implements TokenTransferWalletApi {
+public class TokenTransferContractApiImpl extends ExecutingApi implements TokenTransferContractApi {
 
-  private final Address wallet;
+  private final Address contract;
 
-  TokenTransferWalletApiImpl(BaseApi wrappedApi, Address wallet) {
+  TokenTransferContractApiImpl(BaseApi wrappedApi, Address contract) {
     super(wrappedApi);
-    this.wallet = wallet;
-  }
-
-  @Override
-  protected String getUrlPartBeforeQueryParams() {
-    return "/" + wallet.getAddress() + "/erc20/transfers";
-  }
-
-
-  @Override
-  public TokenTransferWalletApi chain(Chain chain) {
-    addQuery(QueryParams.chain(chain));
-    return this;
-  }
-
-  @Override
-  public TokenTransferWalletApi fromBlock(long blockNumber) {
-    addQuery(QueryParams.fromBlock(blockNumber));
-    return this;
-  }
-
-  @Override
-  public TokenTransferWalletApi toBlock(long blockNumber) {
-    addQuery(QueryParams.toBlock(blockNumber));
-    return this;
-  }
-
-  @Override
-  public TokenTransferWalletApi fromDate(LocalDateTime fromDate) {
-    addQuery(QueryParams.fromDate(fromDate));
-    return this;
-  }
-
-  @Override
-  public TokenTransferWalletApi toDate(LocalDateTime toDate) {
-    addQuery(QueryParams.toDate(toDate));
-    return this;
-  }
-
-  @Override
-  public TokenTransferWalletApi pageSize(int pageSize) {
-    addQuery(QueryParams.pageSize(pageSize));
-    return this;
-  }
-
-  @Override
-  public TokenTransferWalletApi disableTotal(boolean disableTotal) {
-    addQuery(QueryParams.disableTotal(disableTotal));
-    return this;
-  }
-
-  @Override
-  public TokenTransferWalletApi cursor(String cursor) {
-    addQuery(QueryParams.cursor(cursor));
-    return this;
+    this.contract = contract;
   }
 
   @Override
   public Erc20TransactionCollection get() {
     return get(Erc20TransactionCollection.class);
+  }
+
+  @Override
+  public TokenTransferContractApi chain(Chain chain) {
+    addQuery(QueryParams.chain(chain));
+    return this;
+  }
+
+  @Override
+  public TokenTransferContractApi fromBlock(long blockNumber) {
+    addQuery(QueryParams.fromBlock(blockNumber));
+    return this;
+  }
+
+  @Override
+  public TokenTransferContractApi toBlock(long blockNumber) {
+    addQuery(QueryParams.toBlock(blockNumber));
+    return this;
+  }
+
+  @Override
+  public TokenTransferContractApi fromDate(LocalDateTime fromDate) {
+    addQuery(QueryParams.fromDate(fromDate));
+    return this;
+  }
+
+  @Override
+  public TokenTransferContractApi toDate(LocalDateTime toDate) {
+    addQuery(QueryParams.toDate(toDate));
+    return this;
+  }
+
+  @Override
+  public TokenTransferContractApi pageSize(int pageSize) {
+    addQuery(QueryParams.pageSize(pageSize));
+    return this;
+  }
+
+  @Override
+  public TokenTransferContractApi disableTotal(boolean disableTotal) {
+    addQuery(QueryParams.disableTotal(disableTotal));
+    return this;
+  }
+
+  @Override
+  public TokenTransferContractApi cursor(String cursor) {
+    addQuery(QueryParams.cursor(cursor));
+    return this;
+  }
+
+  @Override
+  protected String getUrlPartBeforeQueryParams() {
+    return "/erc20/" + contract.getAddress() + "/transfers";
   }
 }

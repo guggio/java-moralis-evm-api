@@ -18,4 +18,9 @@ public class TokenTransferApiImpl extends BaseApiImpl implements TokenTransferAp
   public TokenTransferWalletApi wallet(Address wallet) {
     return new TokenTransferWalletApiImpl(this, wallet);
   }
+
+  @Override
+  public TokenTransferContractApi contract(Address contract) {
+    return new TokenTransferContractApiImpl(this, contract);
+  }
 }

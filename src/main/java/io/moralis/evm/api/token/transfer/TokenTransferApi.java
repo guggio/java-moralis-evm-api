@@ -6,4 +6,6 @@ public interface TokenTransferApi {
 
   TokenTransferWalletApi wallet(Address wallet);
 
+  TokenTransferContractApi contract(Address contract);
+
 }
