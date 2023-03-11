@@ -64,4 +64,8 @@ public interface QueryParams {
   static QueryParams pageSize(int pageSize) {
     return new BaseQueryParams<>("limit", pageSize);
   }
+
+  static QueryParams symbols(List<String> symbols) {
+    return new ListQueryParams<>("symbols", symbols);
+  }
 }

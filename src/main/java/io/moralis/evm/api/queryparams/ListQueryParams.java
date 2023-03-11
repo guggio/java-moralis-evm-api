@@ -1,14 +1,18 @@
 package io.moralis.evm.api.queryparams;
 
 import java.util.List;
-import java.util.StringJoiner;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 class ListQueryParams<T> implements QueryParams {
 
   private final String key;
   private final List<T> values;
   private final Function<T, String> stringFromValueExtractor;
+
+  ListQueryParams(String key, List<T> values) {
+    this(key, values, T::toString);
+  }
 
   ListQueryParams(String key, List<T> values, Function<T, String> stringFromValueExtractor) {
     this.key = key;
@@ -23,8 +27,8 @@ class ListQueryParams<T> implements QueryParams {
 
   @Override
   public String getParams() {
-    StringJoiner stringJoiner = new StringJoiner("&");
-    values.forEach(value -> stringJoiner.add(getKey() + "=" + stringFromValueExtractor.apply(value)));
-    return stringJoiner.toString();
+    return values.stream()
+        .map(value -> getKey() + "=" + stringFromValueExtractor.apply(value))
+        .collect(Collectors.joining("&"));
   }
 }

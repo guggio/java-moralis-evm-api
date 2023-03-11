@@ -14,14 +14,14 @@ public class TokenMetadataContractsApiImpl extends ExecutingApi implements Token
 
   public TokenMetadataContractsApiImpl(BaseApi wrappedApi, List<Address> addresses) {
     super(wrappedApi);
-    checkAddressesNotEmpty(addresses);
-    addQuery(QueryParams.addresses(addresses)); // required query param
+    addAddressesAsQueryParam(addresses);
   }
 
-  private void checkAddressesNotEmpty(List<Address> addresses) {
+  private void addAddressesAsQueryParam(List<Address> addresses) {
     if (addresses.isEmpty()) {
       throw new IllegalArgumentException("Addresses for the TokenMetadataApi must not be empty!");
     }
+    addQuery(QueryParams.addresses(addresses)); // required query param
   }
 
   @Override

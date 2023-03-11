@@ -8,4 +8,6 @@ public interface TokenMetadataApi {
 
   TokenMetadataContractsApi contracts(List<Address> contract);
 
+  TokenMetadataSymbolsApi symbols(List<String> symbols);
+
 }

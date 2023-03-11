@@ -21,4 +21,9 @@ public class TokenMetadataApiImpl extends BaseApiImpl implements TokenMetadataAp
   public TokenMetadataContractsApi contracts(List<Address> addresses) {
     return new TokenMetadataContractsApiImpl(this, addresses);
   }
+
+  @Override
+  public TokenMetadataSymbolsApi symbols(List<String> symbols) {
+    return new TokenMetadataSymbolsApiImpl(this, symbols);
+  }
 }
