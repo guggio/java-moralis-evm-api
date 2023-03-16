@@ -68,4 +68,8 @@ public interface QueryParams {
   static QueryParams symbols(List<String> symbols) {
     return new ListQueryParams<>("symbols", symbols);
   }
+
+  static QueryParams includeInternalTx() {
+    return new BaseQueryParams<>("include", "internal_transactions");
+  }
 }

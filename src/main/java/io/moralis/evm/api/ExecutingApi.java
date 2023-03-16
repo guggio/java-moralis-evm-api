@@ -37,6 +37,10 @@ public abstract class ExecutingApi extends BaseApiImpl {
     queryParamsManager.add(queryParams);
   }
 
+  protected final void removeQuery(QueryParams queryParams) {
+    queryParamsManager.remove(queryParams);
+  }
+
   protected final <T> T get(Class<T> clazz) {
     HttpClient httpClient = HttpClient.newHttpClient();
 

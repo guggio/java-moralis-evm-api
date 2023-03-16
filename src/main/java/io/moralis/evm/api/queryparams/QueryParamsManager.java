@@ -24,4 +24,8 @@ public class QueryParamsManager {
   public void add(QueryParams queryParams) {
     queryParamsMap.put(queryParams.getKey(), queryParams);
   }
+
+  public void remove(QueryParams queryParams) {
+    queryParamsMap.remove(queryParams.getKey());
+  }
 }

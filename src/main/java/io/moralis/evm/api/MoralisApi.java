@@ -1,5 +1,6 @@
 package io.moralis.evm.api;
 
+import io.moralis.evm.api.block.BlockApi;
 import io.moralis.evm.api.token.TokenApi;
 
 /**
@@ -8,6 +9,8 @@ import io.moralis.evm.api.token.TokenApi;
 public interface MoralisApi {
 
   TokenApi token();
+
+  BlockApi block();
 
   static MoralisApi apiKey(String apiKey) {
     return new MoralisApiV2Impl(apiKey);
