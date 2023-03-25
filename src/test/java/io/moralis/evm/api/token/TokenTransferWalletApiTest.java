@@ -85,21 +85,21 @@ class TokenTransferWalletApiTest {
     assertNull(erc20TransactionCollection.getTotal());
     assertNull(erc20TransactionCollection.getCursor());
     assertEquals(0, erc20TransactionCollection.getPage());
-    assertEquals(10, erc20TransactionCollection.getPageSize());
+    assertEquals(10, erc20TransactionCollection.getPage_size());
     List<Erc20Transaction> erc20Transactions = erc20TransactionCollection.getResult();
     assertEquals(1, erc20Transactions.size());
 
     Erc20Transaction erc20Transaction = erc20Transactions.get(0);
-    assertEquals("0xfe84cf396cf6e928f5d9811226c39c04c6a7a277f965719b63c3225636cd359d", erc20Transaction.getTransactionHash());
+    assertEquals("0xfe84cf396cf6e928f5d9811226c39c04c6a7a277f965719b63c3225636cd359d", erc20Transaction.getTransaction_hash());
     assertEquals("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", erc20Transaction.getAddress());
-    assertEquals("2023-02-20T21:19:11.000Z", erc20Transaction.getBlockTimestamp());
-    assertEquals(16672386L, erc20Transaction.getBlockNumber());
-    assertEquals("0x50df3e6174b8fa417582dfa7e47ee625099ea79df3898adcd75bc9477d54f760", erc20Transaction.getBlockHash());
-    assertEquals("0x5427fefa711eff984124bfbb1ab6fbf5e3da1820", erc20Transaction.getToAddress());
-    assertEquals("0xa2b13834161fd407218cf642c2d17060b26aea09", erc20Transaction.getFromAddress());
+    assertEquals("2023-02-20T21:19:11.000Z", erc20Transaction.getBlock_timestamp());
+    assertEquals(16672386L, erc20Transaction.getBlock_number());
+    assertEquals("0x50df3e6174b8fa417582dfa7e47ee625099ea79df3898adcd75bc9477d54f760", erc20Transaction.getBlock_hash());
+    assertEquals("0x5427fefa711eff984124bfbb1ab6fbf5e3da1820", erc20Transaction.getTo_address());
+    assertEquals("0xa2b13834161fd407218cf642c2d17060b26aea09", erc20Transaction.getFrom_address());
     assertEquals(new BigInteger("5590000000"), erc20Transaction.getValue());
-    assertEquals(86, erc20Transaction.getTransactionIndex());
-    assertEquals(211, erc20Transaction.getLogIndex());
+    assertEquals(86, erc20Transaction.getTransaction_index());
+    assertEquals(211, erc20Transaction.getLog_index());
   }
 
   @Test
@@ -124,21 +124,21 @@ class TokenTransferWalletApiTest {
     assertEquals(1, erc20TransactionCollection.getTotal());
     assertNull(erc20TransactionCollection.getCursor());
     assertEquals(0, erc20TransactionCollection.getPage());
-    assertEquals(10, erc20TransactionCollection.getPageSize());
+    assertEquals(10, erc20TransactionCollection.getPage_size());
     List<Erc20Transaction> erc20Transactions = erc20TransactionCollection.getResult();
     assertEquals(1, erc20Transactions.size());
 
     Erc20Transaction erc20Transaction = erc20Transactions.get(0);
-    assertEquals("0xfe84cf396cf6e928f5d9811226c39c04c6a7a277f965719b63c3225636cd359d", erc20Transaction.getTransactionHash());
+    assertEquals("0xfe84cf396cf6e928f5d9811226c39c04c6a7a277f965719b63c3225636cd359d", erc20Transaction.getTransaction_hash());
     assertEquals("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", erc20Transaction.getAddress());
-    assertEquals("2023-02-20T21:19:11.000Z", erc20Transaction.getBlockTimestamp());
-    assertEquals(16672386L, erc20Transaction.getBlockNumber());
-    assertEquals("0x50df3e6174b8fa417582dfa7e47ee625099ea79df3898adcd75bc9477d54f760", erc20Transaction.getBlockHash());
-    assertEquals("0x5427fefa711eff984124bfbb1ab6fbf5e3da1820", erc20Transaction.getToAddress());
-    assertEquals("0xa2b13834161fd407218cf642c2d17060b26aea09", erc20Transaction.getFromAddress());
+    assertEquals("2023-02-20T21:19:11.000Z", erc20Transaction.getBlock_timestamp());
+    assertEquals(16672386L, erc20Transaction.getBlock_number());
+    assertEquals("0x50df3e6174b8fa417582dfa7e47ee625099ea79df3898adcd75bc9477d54f760", erc20Transaction.getBlock_hash());
+    assertEquals("0x5427fefa711eff984124bfbb1ab6fbf5e3da1820", erc20Transaction.getTo_address());
+    assertEquals("0xa2b13834161fd407218cf642c2d17060b26aea09", erc20Transaction.getFrom_address());
     assertEquals(new BigInteger("5590000000"), erc20Transaction.getValue());
-    assertEquals(86, erc20Transaction.getTransactionIndex());
-    assertEquals(211, erc20Transaction.getLogIndex());
+    assertEquals(86, erc20Transaction.getTransaction_index());
+    assertEquals(211, erc20Transaction.getLog_index());
   }
 
   @Test
@@ -158,7 +158,7 @@ class TokenTransferWalletApiTest {
     assertNull(erc20TransactionCollection.getTotal());
     assertNull(erc20TransactionCollection.getCursor());
     assertEquals(0, erc20TransactionCollection.getPage());
-    assertEquals(10, erc20TransactionCollection.getPageSize());
+    assertEquals(10, erc20TransactionCollection.getPage_size());
     List<Erc20Transaction> erc20Transactions = erc20TransactionCollection.getResult();
     assertEquals(9, erc20Transactions.size());
   }
@@ -181,7 +181,7 @@ class TokenTransferWalletApiTest {
     assertNull(erc20TransactionCollection.getTotal());
     assertNotNull(erc20TransactionCollection.getCursor());
     assertEquals(0, erc20TransactionCollection.getPage());
-    assertEquals(5, erc20TransactionCollection.getPageSize());
+    assertEquals(5, erc20TransactionCollection.getPage_size());
     assertEquals(5, erc20TransactionCollection.getResult().size());
 
     erc20TransactionCollection = tokenTransferWalletApi
@@ -192,7 +192,7 @@ class TokenTransferWalletApiTest {
     assertNull(erc20TransactionCollection.getTotal());
     assertNull(erc20TransactionCollection.getCursor());
     assertEquals(1, erc20TransactionCollection.getPage());
-    assertEquals(5, erc20TransactionCollection.getPageSize());
+    assertEquals(5, erc20TransactionCollection.getPage_size());
     assertEquals(4, erc20TransactionCollection.getResult().size());
   }
 
@@ -212,7 +212,7 @@ class TokenTransferWalletApiTest {
     assertNotNull(erc20TransactionCollection);
     assertNull(erc20TransactionCollection.getTotal());
     assertEquals(0, erc20TransactionCollection.getPage());
-    assertEquals(10, erc20TransactionCollection.getPageSize());
+    assertEquals(10, erc20TransactionCollection.getPage_size());
     assertTrue(erc20TransactionCollection.getResult().isEmpty());
   }
 

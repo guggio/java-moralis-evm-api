@@ -1,8 +1,12 @@
 package io.moralis.evm.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigInteger;
 
-@SuppressWarnings("unused")
+@Getter
+@Setter
 public class Erc20Transaction {
 
   private String transaction_hash;
@@ -25,43 +29,4 @@ public class Erc20Transaction {
 
   private int log_index;
 
-  public String getTransactionHash() {
-    return transaction_hash;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public String getBlockTimestamp() {
-    return block_timestamp;
-  }
-
-  public long getBlockNumber() {
-    return block_number;
-  }
-
-  public String getBlockHash() {
-    return block_hash;
-  }
-
-  public String getToAddress() {
-    return to_address;
-  }
-
-  public String getFromAddress() {
-    return from_address;
-  }
-
-  public BigInteger getValue() {
-    return value;
-  }
-
-  public int getTransactionIndex() {
-    return transaction_index;
-  }
-
-  public int getLogIndex() {
-    return log_index;
-  }
 }

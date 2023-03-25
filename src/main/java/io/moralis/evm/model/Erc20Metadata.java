@@ -1,9 +1,13 @@
 package io.moralis.evm.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.annotation.Nullable;
 import java.math.BigInteger;
 
-@SuppressWarnings("unused")
+@Getter
+@Setter
 public class Erc20Metadata {
 
   private String address;
@@ -32,48 +36,9 @@ public class Erc20Metadata {
   @Nullable
   private Integer validated;
 
-  public String getAddress() {
-    return address;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getSymbol() {
-    return symbol;
-  }
+  private boolean possible_spam;
 
   public BigInteger getDecimals() {
     return decimals.isBlank() ? BigInteger.ZERO : new BigInteger(decimals);
-  }
-
-  @Nullable
-  public String getLogo() {
-    return logo;
-  }
-
-  public String getLogoHash() {
-    return logo_hash;
-  }
-
-  @Nullable
-  public String getThumbnail() {
-    return thumbnail;
-  }
-
-  @Nullable
-  public Long getBlockNumber() {
-    return block_number;
-  }
-
-  @Nullable
-  public String getCreatedAt() {
-    return created_at;
-  }
-
-  @Nullable
-  public Integer getValidated() {
-    return validated;
   }
 }

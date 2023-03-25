@@ -141,11 +141,11 @@ class TokenMetadataContractsApiTest {
     assertEquals(symbol, metadata.getSymbol());
     assertEquals(decimals, metadata.getDecimals());
     assertEquals(logo, metadata.getLogo());
-    assertEquals(logoHash, metadata.getLogoHash());
+    assertEquals(logoHash, metadata.getLogo_hash());
     assertEquals(thumbnail, metadata.getThumbnail());
-    assertEquals(blockNumber, metadata.getBlockNumber());
+    assertEquals(blockNumber, metadata.getBlock_number());
     assertEquals(validated, metadata.getValidated());
-    assertEquals(createdAt, metadata.getCreatedAt());
+    assertEquals(createdAt, metadata.getCreated_at());
   }
 
   @Test

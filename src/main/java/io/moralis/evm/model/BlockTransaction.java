@@ -1,10 +1,14 @@
 package io.moralis.evm.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.annotation.Nullable;
 import java.math.BigInteger;
 import java.util.List;
 
-@SuppressWarnings("unused")
+@Getter
+@Setter
 public class BlockTransaction {
 
   private String hash;
@@ -47,81 +51,4 @@ public class BlockTransaction {
 
   private List<InternalTransaction> internal_transactions;
 
-  public String getHash() {
-    return hash;
-  }
-
-  public String getNonce() {
-    return nonce;
-  }
-
-  public int getTransactionIndex() {
-    return transaction_index;
-  }
-
-  public String getFromAddress() {
-    return from_address;
-  }
-
-  public String getToAddress() {
-    return to_address;
-  }
-
-  public BigInteger getValue() {
-    return value;
-  }
-
-  public BigInteger getGas() {
-    return gas;
-  }
-
-  public BigInteger getGasPrice() {
-    return gas_price;
-  }
-
-  public String getInput() {
-    return input;
-  }
-
-  public BigInteger getReceiptCumulativeGasUsed() {
-    return receipt_cumulative_gas_used;
-  }
-
-  public BigInteger getReceiptGasUsed() {
-    return receipt_gas_used;
-  }
-
-  @Nullable
-  public String getReceiptContractAddress() {
-    return receipt_contract_address;
-  }
-
-  @Nullable
-  public String getReceiptRoot() {
-    return receipt_root;
-  }
-
-  public int getReceiptStatus() {
-    return receipt_status;
-  }
-
-  public String getBlockTimestamp() {
-    return block_timestamp;
-  }
-
-  public long getBlockNumber() {
-    return block_number;
-  }
-
-  public String getBlockHash() {
-    return block_hash;
-  }
-
-  public List<Log> getLogs() {
-    return logs;
-  }
-
-  public List<InternalTransaction> getInternalTransactions() {
-    return internal_transactions;
-  }
 }

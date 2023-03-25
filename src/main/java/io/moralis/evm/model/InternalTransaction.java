@@ -1,8 +1,12 @@
 package io.moralis.evm.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigInteger;
 
-@SuppressWarnings("unused")
+@Getter
+@Setter
 public class InternalTransaction {
 
   private String transaction_hash;
@@ -27,47 +31,4 @@ public class InternalTransaction {
 
   private String output;
 
-  public String getTransactionHash() {
-    return transaction_hash;
-  }
-
-  public long getBlockNumber() {
-    return block_number;
-  }
-
-  public String getBlockHash() {
-    return block_hash;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public String getFrom() {
-    return from;
-  }
-
-  public String getTo() {
-    return to;
-  }
-
-  public BigInteger getValue() {
-    return value;
-  }
-
-  public BigInteger getGas() {
-    return gas;
-  }
-
-  public BigInteger getGasUsed() {
-    return gas_used;
-  }
-
-  public String getInput() {
-    return input;
-  }
-
-  public String getOutput() {
-    return output;
-  }
 }

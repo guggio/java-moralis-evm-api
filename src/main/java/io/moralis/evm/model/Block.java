@@ -1,9 +1,13 @@
 package io.moralis.evm.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigInteger;
 import java.util.List;
 
-@SuppressWarnings("unused")
+@Getter
+@Setter
 public class Block {
 
   private String timestamp;
@@ -44,79 +48,4 @@ public class Block {
 
   private List<BlockTransaction> transactions;
 
-  public String getTimestamp() {
-    return timestamp;
-  }
-
-  public long getNumber() {
-    return number;
-  }
-
-  public String getHash() {
-    return hash;
-  }
-
-  public String getParentHash() {
-    return parent_hash;
-  }
-
-  public String getNonce() {
-    return nonce;
-  }
-
-  public String getSha3Uncles() {
-    return sha3_uncles;
-  }
-
-  public String getLogsBloom() {
-    return logs_bloom;
-  }
-
-  public String getTransactionsRoot() {
-    return transactions_root;
-  }
-
-  public String getStateRoot() {
-    return state_root;
-  }
-
-  public String getReceiptsRoot() {
-    return receipts_root;
-  }
-
-  public String getMiner() {
-    return miner;
-  }
-
-  public String getDifficulty() {
-    return difficulty;
-  }
-
-  public String getTotalDifficulty() {
-    return total_difficulty;
-  }
-
-  public String getSize() {
-    return size;
-  }
-
-  public String getExtraData() {
-    return extra_data;
-  }
-
-  public BigInteger getGasLimit() {
-    return gas_limit;
-  }
-
-  public BigInteger getGasUsed() {
-    return gas_used;
-  }
-
-  public int getTransactionCount() {
-    return transaction_count;
-  }
-
-  public List<BlockTransaction> getTransactions() {
-    return transactions;
-  }
 }
