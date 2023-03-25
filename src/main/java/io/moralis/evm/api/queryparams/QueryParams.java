@@ -45,6 +45,10 @@ public interface QueryParams {
     return new BaseQueryParams<>("exchange", exchange);
   }
 
+  static QueryParams date(LocalDateTime date) {
+    return new BaseQueryParams<>("date", date);
+  }
+
   static QueryParams fromDate(LocalDateTime fromDate) {
     return new BaseQueryParams<>("from_date", fromDate);
   }
