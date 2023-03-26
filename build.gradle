@@ -1,0 +1,40 @@
+plugins {
+    id 'java-library'
+    id 'jacoco'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    testImplementation 'org.junit.platform:junit-platform-runner:1.2.0'
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty "API_KEY", System.getProperty("API_KEY")
+}
+
+group = 'io.moralis.evm'
+version = '1.0-SNAPSHOT'
+description = 'java-moralis-evm-api'
+java.sourceCompatibility = JavaVersion.VERSION_1_8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
+}
