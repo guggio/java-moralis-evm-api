@@ -1,5 +1,7 @@
 package io.moralis.evm.api;
 
+import io.moralis.evm.api.balance.BalanceApi;
+import io.moralis.evm.api.balance.BalanceApiImpl;
 import io.moralis.evm.api.block.BlockApi;
 import io.moralis.evm.api.block.BlockApiImpl;
 import io.moralis.evm.api.token.TokenApi;
@@ -31,5 +33,10 @@ class MoralisApiV2Impl implements MoralisApi, BaseApi {
   @Override
   public BlockApi block() {
     return new BlockApiImpl(this);
+  }
+
+  @Override
+  public BalanceApi balance() {
+    return new BalanceApiImpl(this);
   }
 }
