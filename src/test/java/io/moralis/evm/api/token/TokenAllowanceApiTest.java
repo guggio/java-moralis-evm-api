@@ -68,7 +68,7 @@ class TokenAllowanceApiTest {
         .get();
 
     assertNotNull(tokenAllowance);
-    assertEquals(new BigInteger("5262000000000000000000"), tokenAllowance.getAllowance());
+    assertEquals(new BigInteger("5568000000000000000000"), tokenAllowance.getAllowance());
   }
 
   @Test
