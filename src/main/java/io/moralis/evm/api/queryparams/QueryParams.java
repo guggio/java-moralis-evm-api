@@ -33,6 +33,10 @@ public interface QueryParams {
     return new ListQueryParams<>("token_addresses", tokenAddresses, Address::getAddress);
   }
 
+  static QueryParams walletAddresses(List<Address> addresses) {
+    return new ListQueryParams<>("wallet_addresses", addresses, Address::getAddress);
+  }
+
   static QueryParams ownerAddress(Address owner) {
     return new BaseQueryParams<>("owner_address", owner, Address::getAddress);
   }
