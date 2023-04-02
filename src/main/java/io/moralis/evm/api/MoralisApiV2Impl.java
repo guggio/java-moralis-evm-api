@@ -6,6 +6,8 @@ import io.moralis.evm.api.block.BlockApi;
 import io.moralis.evm.api.block.BlockApiImpl;
 import io.moralis.evm.api.token.TokenApi;
 import io.moralis.evm.api.token.TokenApiImpl;
+import io.moralis.evm.api.transaction.TransactionApi;
+import io.moralis.evm.api.transaction.TransactionApiImpl;
 
 class MoralisApiV2Impl implements MoralisApi, BaseApi {
 
@@ -38,5 +40,10 @@ class MoralisApiV2Impl implements MoralisApi, BaseApi {
   @Override
   public BalanceApi balance() {
     return new BalanceApiImpl(this);
+  }
+
+  @Override
+  public TransactionApi transaction() {
+    return new TransactionApiImpl(this);
   }
 }
