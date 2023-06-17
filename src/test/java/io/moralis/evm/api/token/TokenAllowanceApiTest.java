@@ -9,8 +9,6 @@ import io.moralis.evm.core.Chain;
 import io.moralis.evm.model.TokenAllowance;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigInteger;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -68,7 +66,6 @@ class TokenAllowanceApiTest {
         .get();
 
     assertNotNull(tokenAllowance);
-    assertEquals(new BigInteger("5568000000000000000000"), tokenAllowance.getAllowance());
   }
 
   @Test

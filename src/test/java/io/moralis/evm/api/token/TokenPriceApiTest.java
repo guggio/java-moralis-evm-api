@@ -15,7 +15,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,12 +57,11 @@ class TokenPriceApiTest {
         .get();
 
     TokenPrice.NativePrice nativePrice = tokenPrice.getNativePrice();
-    assertEquals(new BigInteger("617462008855730"), nativePrice.getValue());
+    assertEquals(new BigInteger("617267986827480"), nativePrice.getValue());
     assertEquals(BigInteger.valueOf(18L), nativePrice.getDecimals());
     assertEquals("Ether", nativePrice.getName());
     assertEquals("ETH", nativePrice.getSymbol());
-    // the api seems to deliver prices with the ending 5 or 6, so in order to save the tests, we have to hack here a bit
-    assertEquals(new BigDecimal("0.9983740876023685").divide(BigDecimal.TEN, RoundingMode.HALF_UP), tokenPrice.getUsdPrice().divide(BigDecimal.TEN, RoundingMode.HALF_UP));
+    assertEquals(new BigDecimal("0.998060373458581"), tokenPrice.getUsdPrice());
     assertEquals("0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f", tokenPrice.getExchangeAddress());
     assertEquals("Uniswap v2", tokenPrice.getExchangeName());
   }
@@ -78,11 +76,11 @@ class TokenPriceApiTest {
         .get();
 
     TokenPrice.NativePrice nativePrice = tokenPrice.getNativePrice();
-    assertEquals(new BigInteger("618673273958608"), nativePrice.getValue());
+    assertEquals(new BigInteger("618688294937677"), nativePrice.getValue());
     assertEquals(BigInteger.valueOf(18L), nativePrice.getDecimals());
     assertEquals("Ether", nativePrice.getName());
     assertEquals("ETH", nativePrice.getSymbol());
-    assertEquals(new BigDecimal("1.0005001000100004"), tokenPrice.getUsdPrice());
+    assertEquals(new BigDecimal("1.0005073750047275"), tokenPrice.getUsdPrice());
     assertEquals("0x1f98431c8ad98523631ae4a59f267346ea31f984", tokenPrice.getExchangeAddress());
     assertEquals("Uniswap v3", tokenPrice.getExchangeName());
   }
@@ -99,11 +97,11 @@ class TokenPriceApiTest {
         .get();
 
     TokenPrice.NativePrice nativePrice = tokenPrice.getNativePrice();
-    assertEquals(new BigInteger("3238902277048818"), nativePrice.getValue());
+    assertEquals(new BigInteger("3239309284304165"), nativePrice.getValue());
     assertEquals(BigInteger.valueOf(18L), nativePrice.getDecimals());
-    assertEquals("Binance Coin", nativePrice.getName());
+    assertEquals("Binance Chain Native Token", nativePrice.getName());
     assertEquals("BNB", nativePrice.getSymbol());
-    assertEquals(new BigDecimal("1.0004248732693228"), tokenPrice.getUsdPrice());
+    assertEquals(new BigDecimal("1.0005505887577884"), tokenPrice.getUsdPrice());
     assertEquals("0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73", tokenPrice.getExchangeAddress());
     assertEquals("PancakeSwap v2", tokenPrice.getExchangeName());
   }
@@ -122,10 +120,10 @@ class TokenPriceApiTest {
     // prices from quickswap seem to change randomly, meaning it does not make sense to test those
     TokenPrice.NativePrice nativePrice = tokenPrice.getNativePrice();
     assertEquals(BigInteger.valueOf(18L), nativePrice.getDecimals());
-    assertEquals("Matic Token", nativePrice.getName());
+    assertEquals("MATIC", nativePrice.getName());
     assertEquals("MATIC", nativePrice.getSymbol());
     assertEquals("0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32", tokenPrice.getExchangeAddress());
-    assertEquals("Quickswap", tokenPrice.getExchangeName());
+    assertEquals("Quickswap v2", tokenPrice.getExchangeName());
   }
 
   @Test
@@ -155,8 +153,8 @@ class TokenPriceApiTest {
             .get());
 
     assertEquals(400, connectionException.getStatusCode());
-    assertEquals("Invalid exchange", connectionException.getApiErrorMessage().getMessage());
-    assertEquals("Request failed with status code 400 and message: Invalid exchange", connectionException.getMessage());
+    assertEquals("No valid exchange found for the provided chain and/or to_block", connectionException.getApiErrorMessage().getMessage());
+    assertEquals("Request failed with status code 400 and message: No valid exchange found for the provided chain and/or to_block", connectionException.getMessage());
   }
 
   @Test

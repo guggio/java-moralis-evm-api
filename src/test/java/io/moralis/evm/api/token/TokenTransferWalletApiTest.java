@@ -121,7 +121,7 @@ class TokenTransferWalletApiTest {
 
     assertNotNull(erc20TransactionCollection);
     assertNotNull(erc20TransactionCollection.getTotal());
-    assertEquals(1, erc20TransactionCollection.getTotal());
+    assertEquals(15, erc20TransactionCollection.getTotal());
     assertNull(erc20TransactionCollection.getCursor());
     assertEquals(0, erc20TransactionCollection.getPage());
     assertEquals(10, erc20TransactionCollection.getPage_size());

@@ -9,6 +9,7 @@ import io.moralis.evm.core.Chain;
 import io.moralis.evm.model.InternalTransaction;
 import io.moralis.evm.model.Transaction;
 import io.moralis.evm.model.TransactionCollection;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
@@ -25,6 +26,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class NativeTransactionApiTest {
 
   public static final String WALLET_ADDRESS = "0xa2B13834161fD407218cf642C2D17060b26aeA09";
+
+  @BeforeEach
+  void setUp() throws InterruptedException {
+    // ugly hack to circumvent api rate limits until fixed
+    Thread.sleep(500);
+  }
 
   @Test
   void shouldCreateNativeTransactionsApi() {

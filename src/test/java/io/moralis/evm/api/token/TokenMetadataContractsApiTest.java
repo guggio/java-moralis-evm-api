@@ -77,8 +77,7 @@ class TokenMetadataContractsApiTest {
 
     assertEquals(2, metadatas.size());
 
-    Erc20Metadata metadata = metadatas.get(0);
-    assertMetadata(metadata,
+    assertMetadata(metadatas.stream().filter(metadata -> metadata.getAddress().equals(SOS_TOKEN_ADDRESS.toLowerCase())).findFirst().orElseThrow(),
         SOS_TOKEN_ADDRESS.toLowerCase(),
         "SOS",
         "SOS",
@@ -89,7 +88,7 @@ class TokenMetadataContractsApiTest {
         13860522L,
         1, "2022-01-20T10:39:55.818Z"
     );
-    assertMetadata(metadatas.get(1),
+    assertMetadata(metadatas.stream().filter(metadata -> metadata.getAddress().equals(WETH_TOKEN_ADDRESS.toLowerCase())).findFirst().orElseThrow(),
         WETH_TOKEN_ADDRESS.toLowerCase(),
         "Wrapped Ether",
         "WETH",
