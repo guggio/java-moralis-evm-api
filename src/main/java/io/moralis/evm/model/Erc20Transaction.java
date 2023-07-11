@@ -7,6 +7,7 @@ import java.math.BigInteger;
 
 @Getter
 @Setter
+@SuppressWarnings("squid:S00116")
 public class Erc20Transaction {
 
   private String transaction_hash;

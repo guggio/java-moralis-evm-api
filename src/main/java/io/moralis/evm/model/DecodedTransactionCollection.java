@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@SuppressWarnings("squid:S00116")
 public class DecodedTransactionCollection {
 
   private int page;

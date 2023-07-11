@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 @Getter
 @Setter
+@SuppressWarnings("squid:S00116")
 public class Log {
 
   private int log_index;

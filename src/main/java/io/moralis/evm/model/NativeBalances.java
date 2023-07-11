@@ -9,6 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@SuppressWarnings({"squid:S00116", "squid:S00100"})
 public class NativeBalances {
 
   private String chain;

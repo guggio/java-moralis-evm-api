@@ -8,6 +8,7 @@ import java.math.BigInteger;
 
 @Getter
 @Setter
+@SuppressWarnings("squid:S00116")
 public class TokenBalance {
 
   private String token_address;

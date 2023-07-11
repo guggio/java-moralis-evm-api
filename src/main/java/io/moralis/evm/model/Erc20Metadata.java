@@ -8,6 +8,7 @@ import java.math.BigInteger;
 
 @Getter
 @Setter
+@SuppressWarnings("squid:S00116")
 public class Erc20Metadata {
 
   private String address;
