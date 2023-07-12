@@ -2,10 +2,10 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: 
+    branches:
       - master
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
 
 permissions:
   contents: read
@@ -20,14 +20,21 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-          
+
       - name: Build
         run: ./gradlew classes
-      
+
       - name: Test
         run: ./gradlew test jacocoTestReport
         env:
           API_KEY: ${{ secrets.API_KEY }}
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
 
       - name: Sonar Analysis
         run: ./gradlew build sonar --info

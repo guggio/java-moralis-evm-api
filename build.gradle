@@ -36,6 +36,7 @@ test {
 check.dependsOn jacocoTestReport
 jacocoTestReport {
     reports {
+        xml.required = true
         html.destination file("${buildDir}/jacocoHtml")
     }
 }
