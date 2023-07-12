@@ -3,17 +3,17 @@ package io.moralis.evm.api.balance;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.ExecutingApi;
 import io.moralis.evm.api.queryparams.QueryParams;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.NativeBalances;
 
 import java.util.List;
 
 class BalanceMultipleAddressesApiImpl extends ExecutingApi implements BalanceMultipleAddressesApi {
 
-  BalanceMultipleAddressesApiImpl(BaseApi wrappedApi, List<Address> addresses) {
+  BalanceMultipleAddressesApiImpl(BaseApi wrappedApi, List<ValidatedAddress> validatedAddresses) {
     super(wrappedApi);
-    addQuery(QueryParams.walletAddresses(addresses));
+    addQuery(QueryParams.walletAddresses(validatedAddresses));
   }
 
   @Override

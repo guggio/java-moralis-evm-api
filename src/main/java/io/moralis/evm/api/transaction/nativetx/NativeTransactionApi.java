@@ -1,4 +1,4 @@
-package io.moralis.evm.api.transaction.nativeTx;
+package io.moralis.evm.api.transaction.nativetx;
 
 import io.moralis.evm.api.GetApi;
 import io.moralis.evm.core.Chain;

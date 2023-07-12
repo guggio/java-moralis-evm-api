@@ -3,8 +3,8 @@ package io.moralis.evm.api.balance;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.NativeBalance;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BalanceOneAddressApiTest {
+class BalanceOneAddressApiTest {
 
   private static final String WALLET_ADDRESS = "0xa2B13834161fD407218cf642C2D17060b26aeA09";
   private static final long BLOCK_NUMBER = 14657000L;
@@ -24,7 +24,7 @@ public class BalanceOneAddressApiTest {
     String apiKey = "apiKey";
     BalanceOneAddressApi balanceOneAddressApi = MoralisApi.apiKey(apiKey)
         .balance()
-        .address(Address.of(WALLET_ADDRESS));
+        .address(ValidatedAddress.of(WALLET_ADDRESS));
 
     assertTrue(balanceOneAddressApi instanceof BaseApi);
     BaseApi castedApi = (BaseApi) balanceOneAddressApi;
@@ -37,7 +37,7 @@ public class BalanceOneAddressApiTest {
     String apiKey = "apiKey";
     BalanceOneAddressApi balanceOneAddressApi = MoralisApi.apiKey(apiKey)
         .balance()
-        .address(Address.of(WALLET_ADDRESS))
+        .address(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .toBlock(BLOCK_NUMBER);
 
@@ -51,7 +51,7 @@ public class BalanceOneAddressApiTest {
   void shouldGetBalanceOfAddress() {
     NativeBalance nativeBalance = MoralisApi.apiKey(getApiKey())
         .balance()
-        .address(Address.of(WALLET_ADDRESS))
+        .address(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .toBlock(BLOCK_NUMBER)
         .get();
@@ -62,11 +62,11 @@ public class BalanceOneAddressApiTest {
   @Test
   void shouldFailWithInvalidKey() {
     String apiKey = getApiKey();
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    BalanceOneAddressApi api = MoralisApi
         .apiKey(apiKey + "a")
         .balance()
-        .address(Address.of(WALLET_ADDRESS))
-        .get());
+        .address(ValidatedAddress.of(WALLET_ADDRESS));
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());

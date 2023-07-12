@@ -3,17 +3,17 @@ package io.moralis.evm.api.balance;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.ExecutingApi;
 import io.moralis.evm.api.queryparams.QueryParams;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.NativeBalance;
 
 class BalanceOneAddressApiImpl extends ExecutingApi implements BalanceOneAddressApi {
 
-  private final Address address;
+  private final ValidatedAddress validatedAddress;
 
-  BalanceOneAddressApiImpl(BaseApi wrappedApi, Address address) {
+  BalanceOneAddressApiImpl(BaseApi wrappedApi, ValidatedAddress validatedAddress) {
     super(wrappedApi);
-    this.address = address;
+    this.validatedAddress = validatedAddress;
   }
 
   @Override
@@ -35,6 +35,6 @@ class BalanceOneAddressApiImpl extends ExecutingApi implements BalanceOneAddress
 
   @Override
   protected String getUrlPartBeforeQueryParams() {
-    return String.format("/%s/balance", address.getAddress());
+    return String.format("/%s/balance", validatedAddress.getAddress());
   }
 }

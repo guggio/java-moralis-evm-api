@@ -4,8 +4,8 @@ import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
 import io.moralis.evm.api.token.allowance.TokenAllowanceApi;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.TokenAllowance;
 import org.junit.jupiter.api.Test;
 
@@ -26,9 +26,9 @@ class TokenAllowanceApiTest {
     TokenAllowanceApi tokenAllowanceApi = MoralisApi
         .apiKey(apiKey)
         .token()
-        .allowance(Address.of(CONTRACT_ADDRESS),
-            Address.of(OWNER_ADDRESS),
-            Address.of(SPENDER_ADDRESS));
+        .allowance(ValidatedAddress.of(CONTRACT_ADDRESS),
+            ValidatedAddress.of(OWNER_ADDRESS),
+            ValidatedAddress.of(SPENDER_ADDRESS));
 
     assertTrue(tokenAllowanceApi instanceof BaseApi);
     BaseApi castedApi = (BaseApi) tokenAllowanceApi;
@@ -42,9 +42,9 @@ class TokenAllowanceApiTest {
     TokenAllowanceApi tokenAllowanceApi = MoralisApi
         .apiKey(apiKey)
         .token()
-        .allowance(Address.of(CONTRACT_ADDRESS),
-            Address.of(OWNER_ADDRESS),
-            Address.of(SPENDER_ADDRESS))
+        .allowance(ValidatedAddress.of(CONTRACT_ADDRESS),
+            ValidatedAddress.of(OWNER_ADDRESS),
+            ValidatedAddress.of(SPENDER_ADDRESS))
         .chain(Chain.ETH);
 
     assertTrue(tokenAllowanceApi instanceof BaseApi);
@@ -59,9 +59,9 @@ class TokenAllowanceApiTest {
     TokenAllowance tokenAllowance = MoralisApi
         .apiKey(apiKey)
         .token()
-        .allowance(Address.of(CONTRACT_ADDRESS),
-            Address.of(OWNER_ADDRESS),
-            Address.of(SPENDER_ADDRESS))
+        .allowance(ValidatedAddress.of(CONTRACT_ADDRESS),
+            ValidatedAddress.of(OWNER_ADDRESS),
+            ValidatedAddress.of(SPENDER_ADDRESS))
         .chain(Chain.ETH)
         .get();
 
@@ -71,14 +71,14 @@ class TokenAllowanceApiTest {
   @Test
   void shouldFailWithInvalidKey() {
     String apiKey = getApiKey();
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    TokenAllowanceApi api = MoralisApi
         .apiKey(apiKey + "a")
         .token()
-        .allowance(Address.of(CONTRACT_ADDRESS),
-            Address.of(OWNER_ADDRESS),
-            Address.of(SPENDER_ADDRESS))
-        .chain(Chain.ETH)
-        .get());
+        .allowance(ValidatedAddress.of(CONTRACT_ADDRESS),
+            ValidatedAddress.of(OWNER_ADDRESS),
+            ValidatedAddress.of(SPENDER_ADDRESS))
+        .chain(Chain.ETH);
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());

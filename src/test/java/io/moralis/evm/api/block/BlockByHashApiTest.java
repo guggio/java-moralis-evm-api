@@ -12,7 +12,7 @@ import java.math.BigInteger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BlockByHashApiTest {
+class BlockByHashApiTest {
 
   private static final long BLOCK_NUMBER = 16842847L;
   private static final String BLOCK_HASH = "0x422446d05ab519b81f2276ba28eea5e629769c6e0d6f7448328b813e2f18e0ef";

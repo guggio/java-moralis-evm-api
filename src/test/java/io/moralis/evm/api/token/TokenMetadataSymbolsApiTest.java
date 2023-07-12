@@ -3,6 +3,7 @@ package io.moralis.evm.api.token;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
+import io.moralis.evm.api.token.metadata.TokenMetadataApi;
 import io.moralis.evm.api.token.metadata.TokenMetadataSymbolsApi;
 import io.moralis.evm.core.Chain;
 import io.moralis.evm.model.Erc20Metadata;
@@ -42,11 +43,12 @@ class TokenMetadataSymbolsApiTest {
   @Test
   void shouldThrowIllegalArgumentExceptionWithEmptySymbolsList() {
     String apiKey = "apiKey";
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> MoralisApi
+    TokenMetadataApi api = MoralisApi
         .apiKey(apiKey)
         .token()
-        .metadata()
-        .symbols(List.of()));
+        .metadata();
+    List<String> emptyList = List.of();
+    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> api.symbols(emptyList));
     assertEquals("Symbols for the TokenMetadataApi must not be empty!", illegalArgumentException.getMessage());
   }
 
@@ -98,13 +100,13 @@ class TokenMetadataSymbolsApiTest {
 
   @Test
   void shouldFailWithInvalidKey() {
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    TokenMetadataSymbolsApi api = MoralisApi
         .apiKey("apiKey")
         .token()
         .metadata()
         .symbols(List.of(SOS_SYMBOL))
-        .chain(Chain.ETH)
-        .get());
+        .chain(Chain.ETH);
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());

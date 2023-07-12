@@ -3,17 +3,17 @@ package io.moralis.evm.api.transaction.decoded;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.ExecutingApi;
 import io.moralis.evm.api.queryparams.QueryParams;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.DecodedTransactionCollection;
 
 import java.time.LocalDateTime;
 
 public class DecodedTransactionApiImpl extends ExecutingApi implements DecodedTransactionApi {
 
-  private final Address wallet;
+  private final ValidatedAddress wallet;
 
-  public DecodedTransactionApiImpl(BaseApi wrappedApi, Address wallet) {
+  public DecodedTransactionApiImpl(BaseApi wrappedApi, ValidatedAddress wallet) {
     super(wrappedApi);
     this.wallet = wallet;
   }

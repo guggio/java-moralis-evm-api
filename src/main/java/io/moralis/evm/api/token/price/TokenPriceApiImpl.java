@@ -3,16 +3,16 @@ package io.moralis.evm.api.token.price;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.ExecutingApi;
 import io.moralis.evm.api.queryparams.QueryParams;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
 import io.moralis.evm.core.Exchange;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.TokenPrice;
 
 public class TokenPriceApiImpl extends ExecutingApi implements TokenPriceApi {
 
-  private final Address contract;
+  private final ValidatedAddress contract;
 
-  public TokenPriceApiImpl(BaseApi wrappedApi, Address contract) {
+  public TokenPriceApiImpl(BaseApi wrappedApi, ValidatedAddress contract) {
     super(wrappedApi);
     this.contract = contract;
   }

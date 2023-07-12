@@ -2,7 +2,7 @@ package io.moralis.evm.api.token.metadata;
 
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.BaseApiImpl;
-import io.moralis.evm.core.Address;
+import io.moralis.evm.core.ValidatedAddress;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ public class TokenMetadataApiImpl extends BaseApiImpl implements TokenMetadataAp
   }
 
   @Override
-  public TokenMetadataContractsApi contracts(List<Address> addresses) {
-    return new TokenMetadataContractsApiImpl(this, addresses);
+  public TokenMetadataContractsApi contracts(List<ValidatedAddress> validatedAddresses) {
+    return new TokenMetadataContractsApiImpl(this, validatedAddresses);
   }
 
   @Override

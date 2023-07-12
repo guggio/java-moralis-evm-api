@@ -4,8 +4,8 @@ import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
 import io.moralis.evm.api.token.transfer.TokenTransferContractApi;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.Erc20Transaction;
 import io.moralis.evm.model.Erc20TransactionCollection;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class TokenTransferContractApiTest {
         .apiKey(apiKey)
         .token()
         .transfer()
-        .contract(Address.of(SOS_TOKEN_ADDRESS));
+        .contract(ValidatedAddress.of(SOS_TOKEN_ADDRESS));
 
     assertTrue(tokenTransferContractApi instanceof BaseApi);
     BaseApi castedApi = (BaseApi) tokenTransferContractApi;
@@ -47,7 +47,7 @@ class TokenTransferContractApiTest {
         .apiKey(apiKey)
         .token()
         .transfer()
-        .contract(Address.of(SOS_TOKEN_ADDRESS))
+        .contract(ValidatedAddress.of(SOS_TOKEN_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16365015L)
         .toBlock(16672386L)
@@ -71,7 +71,7 @@ class TokenTransferContractApiTest {
         .apiKey(getApiKey())
         .token()
         .transfer()
-        .contract(Address.of(SOS_TOKEN_ADDRESS))
+        .contract(ValidatedAddress.of(SOS_TOKEN_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16785262L)
         .toBlock(16785262L)
@@ -108,7 +108,7 @@ class TokenTransferContractApiTest {
         .apiKey(getApiKey())
         .token()
         .transfer()
-        .contract(Address.of(SOS_TOKEN_ADDRESS))
+        .contract(ValidatedAddress.of(SOS_TOKEN_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16785262L)
         .toBlock(16785262L)
@@ -148,7 +148,7 @@ class TokenTransferContractApiTest {
         .apiKey(getApiKey())
         .token()
         .transfer()
-        .contract(Address.of(SOS_TOKEN_ADDRESS))
+        .contract(ValidatedAddress.of(SOS_TOKEN_ADDRESS))
         .chain(Chain.ETH)
         .fromDate(LocalDateTime.of(2023, Month.MARCH, 8, 18, 17, 35))
         .toDate(LocalDateTime.of(2023, Month.MARCH, 8, 19, 17, 35))
@@ -170,7 +170,7 @@ class TokenTransferContractApiTest {
         .apiKey(getApiKey())
         .token()
         .transfer()
-        .contract(Address.of(SOS_TOKEN_ADDRESS))
+        .contract(ValidatedAddress.of(SOS_TOKEN_ADDRESS))
         .chain(Chain.ETH)
         .fromDate(LocalDateTime.of(2023, Month.MARCH, 8, 9, 17, 35))
         .toDate(LocalDateTime.of(2023, Month.MARCH, 8, 19, 17, 35))
@@ -203,7 +203,7 @@ class TokenTransferContractApiTest {
         .apiKey(getApiKey())
         .token()
         .transfer()
-        .contract(Address.of(SOS_TOKEN_ADDRESS))
+        .contract(ValidatedAddress.of(SOS_TOKEN_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16672386L)
         .toBlock(16672322L)
@@ -219,14 +219,14 @@ class TokenTransferContractApiTest {
 
   @Test
   void shouldFailWithInvalidKey() {
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    TokenTransferContractApi api = MoralisApi
         .apiKey("apiKey")
         .token()
         .transfer()
-        .contract(Address.of(SOS_TOKEN_ADDRESS))
+        .contract(ValidatedAddress.of(SOS_TOKEN_ADDRESS))
         .chain(Chain.ETH)
-        .toBlock(16678160L)
-        .get());
+        .toBlock(16678160L);
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());

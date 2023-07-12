@@ -3,8 +3,8 @@ package io.moralis.evm.api.token.balance;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.ExecutingApi;
 import io.moralis.evm.api.queryparams.QueryParams;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.TokenBalance;
 
 import java.util.Arrays;
@@ -12,16 +12,16 @@ import java.util.List;
 
 public class TokenBalanceApiImpl extends ExecutingApi implements TokenBalanceApi {
 
-  private final Address address;
+  private final ValidatedAddress validatedAddress;
 
-  public TokenBalanceApiImpl(BaseApi wrappedApi, Address address) {
+  public TokenBalanceApiImpl(BaseApi wrappedApi, ValidatedAddress validatedAddress) {
     super(wrappedApi);
-    this.address = address;
+    this.validatedAddress = validatedAddress;
   }
 
   @Override
   protected String getUrlPartBeforeQueryParams() {
-    return "/" + address.getAddress() + "/erc20";
+    return "/" + validatedAddress.getAddress() + "/erc20";
   }
 
   @Override
@@ -42,7 +42,7 @@ public class TokenBalanceApiImpl extends ExecutingApi implements TokenBalanceApi
   }
 
   @Override
-  public TokenBalanceApi tokenAddress(List<Address> tokenAddresses) {
+  public TokenBalanceApi tokenAddress(List<ValidatedAddress> tokenAddresses) {
     addQuery(QueryParams.tokenAddresses(tokenAddresses));
     return this;
   }

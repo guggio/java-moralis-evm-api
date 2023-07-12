@@ -1,12 +1,12 @@
 package io.moralis.evm.api.balance;
 
-import io.moralis.evm.core.Address;
+import io.moralis.evm.core.ValidatedAddress;
 
 import java.util.List;
 
 public interface BalanceApi {
 
-  BalanceOneAddressApi address(Address address);
+  BalanceOneAddressApi address(ValidatedAddress validatedAddress);
 
-  BalanceMultipleAddressesApi addresses(List<Address> addresses);
+  BalanceMultipleAddressesApi addresses(List<ValidatedAddress> validatedAddresses);
 }

@@ -3,8 +3,8 @@ package io.moralis.evm.api.balance;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.NativeBalances;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BalanceMultipleAddressesApiTest {
+class BalanceMultipleAddressesApiTest {
 
   private static final String WALLET_ADDRESS = "0xa2B13834161fD407218cf642C2D17060b26aeA09";
   private static final String OTHER_WALLET_ADDRESS = "0x474b91ce978dda0adddfa0eb9e3543280713fcae";
@@ -27,7 +27,7 @@ public class BalanceMultipleAddressesApiTest {
     String apiKey = "apiKey";
     BalanceMultipleAddressesApi balanceMultipleAddressesApi = MoralisApi.apiKey(apiKey)
         .balance()
-        .addresses(List.of(Address.of(WALLET_ADDRESS), Address.of(OTHER_WALLET_ADDRESS)));
+        .addresses(List.of(ValidatedAddress.of(WALLET_ADDRESS), ValidatedAddress.of(OTHER_WALLET_ADDRESS)));
 
     assertTrue(balanceMultipleAddressesApi instanceof BaseApi);
     BaseApi castedApi = (BaseApi) balanceMultipleAddressesApi;
@@ -41,7 +41,7 @@ public class BalanceMultipleAddressesApiTest {
     String apiKey = "apiKey";
     BalanceMultipleAddressesApi balanceMultipleAddressesApi = MoralisApi.apiKey(apiKey)
         .balance()
-        .addresses(List.of(Address.of(WALLET_ADDRESS), Address.of(OTHER_WALLET_ADDRESS)))
+        .addresses(List.of(ValidatedAddress.of(WALLET_ADDRESS), ValidatedAddress.of(OTHER_WALLET_ADDRESS)))
         .chain(Chain.ETH)
         .toBlock(BLOCK_NUMBER);
 
@@ -56,7 +56,7 @@ public class BalanceMultipleAddressesApiTest {
   void shouldGetBalanceOfAddress() {
     List<NativeBalances> nativeBalances = MoralisApi.apiKey(getApiKey())
         .balance()
-        .addresses(List.of(Address.of(WALLET_ADDRESS), Address.of(OTHER_WALLET_ADDRESS)))
+        .addresses(List.of(ValidatedAddress.of(WALLET_ADDRESS), ValidatedAddress.of(OTHER_WALLET_ADDRESS)))
         .chain(Chain.ETH)
         .toBlock(BLOCK_NUMBER)
         .get();
@@ -87,11 +87,11 @@ public class BalanceMultipleAddressesApiTest {
   @Test
   void shouldFailWithInvalidKey() {
     String apiKey = getApiKey();
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    BalanceMultipleAddressesApi api = MoralisApi
         .apiKey(apiKey + "a")
         .balance()
-        .addresses(List.of(Address.of(WALLET_ADDRESS), Address.of(OTHER_WALLET_ADDRESS)))
-        .get());
+        .addresses(List.of(ValidatedAddress.of(WALLET_ADDRESS), ValidatedAddress.of(OTHER_WALLET_ADDRESS)));
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());

@@ -4,8 +4,8 @@ import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
 import io.moralis.evm.api.token.balance.TokenBalanceApi;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.TokenBalance;
 import org.junit.jupiter.api.Test;
 
@@ -53,7 +53,7 @@ class TokenBalanceApiTest {
     TokenBalanceApi tokenBalanceApi = MoralisApi
         .apiKey(apiKey)
         .token()
-        .balance(Address.of(WALLET_ADDRESS));
+        .balance(ValidatedAddress.of(WALLET_ADDRESS));
 
     assertTrue(tokenBalanceApi instanceof BaseApi);
     BaseApi castedApi = (BaseApi) tokenBalanceApi;
@@ -67,10 +67,10 @@ class TokenBalanceApiTest {
     TokenBalanceApi tokenBalanceApi = MoralisApi
         .apiKey(apiKey)
         .token()
-        .balance(Address.of(WALLET_ADDRESS))
+        .balance(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .toBlock(123456L)
-        .tokenAddress(List.of(Address.of(USDC_ADDRESS), Address.of(RANDOM_TOKEN_ADDRESS)));
+        .tokenAddress(List.of(ValidatedAddress.of(USDC_ADDRESS), ValidatedAddress.of(RANDOM_TOKEN_ADDRESS)));
 
     assertTrue(tokenBalanceApi instanceof BaseApi);
     BaseApi castedApi = (BaseApi) tokenBalanceApi;
@@ -84,7 +84,7 @@ class TokenBalanceApiTest {
     TokenBalanceApi tokenBalanceApi = MoralisApi
         .apiKey(apiKey)
         .token()
-        .balance(Address.of(WALLET_ADDRESS))
+        .balance(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH);
 
     assertTrue(tokenBalanceApi instanceof BaseApi);
@@ -99,7 +99,7 @@ class TokenBalanceApiTest {
     TokenBalanceApi tokenBalanceApi = MoralisApi
         .apiKey(apiKey)
         .token()
-        .balance(Address.of(WALLET_ADDRESS))
+        .balance(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .chain(Chain.POLYGON);
 
@@ -116,10 +116,10 @@ class TokenBalanceApiTest {
     List<TokenBalance> tokenBalances = MoralisApi
         .apiKey(key)
         .token()
-        .balance(Address.of(WALLET_ADDRESS))
+        .balance(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .toBlock(16678160L)
-        .tokenAddress(List.of(Address.of(USDC_ADDRESS), Address.of(RANDOM_TOKEN_ADDRESS)))
+        .tokenAddress(List.of(ValidatedAddress.of(USDC_ADDRESS), ValidatedAddress.of(RANDOM_TOKEN_ADDRESS)))
         .get();
 
     assertEquals(2, tokenBalances.size());
@@ -129,14 +129,14 @@ class TokenBalanceApiTest {
 
   @Test
   void shouldFailWithInvalidKey() {
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    TokenBalanceApi api = MoralisApi
         .apiKey("apiKey")
         .token()
-        .balance(Address.of(WALLET_ADDRESS))
+        .balance(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .toBlock(16678160L)
-        .tokenAddress(List.of(Address.of(USDC_ADDRESS), Address.of(RANDOM_TOKEN_ADDRESS)))
-        .get());
+        .tokenAddress(List.of(ValidatedAddress.of(USDC_ADDRESS), ValidatedAddress.of(RANDOM_TOKEN_ADDRESS)));
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());

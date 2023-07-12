@@ -3,17 +3,17 @@ package io.moralis.evm.api.token.transfer;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.ExecutingApi;
 import io.moralis.evm.api.queryparams.QueryParams;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.Erc20TransactionCollection;
 
 import java.time.LocalDateTime;
 
 public class TokenTransferWalletApiImpl extends ExecutingApi implements TokenTransferWalletApi {
 
-  private final Address wallet;
+  private final ValidatedAddress wallet;
 
-  TokenTransferWalletApiImpl(BaseApi wrappedApi, Address wallet) {
+  TokenTransferWalletApiImpl(BaseApi wrappedApi, ValidatedAddress wallet) {
     super(wrappedApi);
     this.wallet = wallet;
   }

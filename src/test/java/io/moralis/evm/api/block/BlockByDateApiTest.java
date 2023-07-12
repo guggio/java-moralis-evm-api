@@ -64,11 +64,11 @@ public class BlockByDateApiTest {
   @Test
   void shouldFailWithInvalidKey() {
     String apiKey = getApiKey();
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    BlockByDateApi api = MoralisApi
         .apiKey(apiKey + "a")
         .block()
-        .date(DATE)
-        .get());
+        .date(DATE);
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());

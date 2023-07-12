@@ -1,19 +1,19 @@
-package io.moralis.evm.api.transaction.nativeTx;
+package io.moralis.evm.api.transaction.nativetx;
 
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.ExecutingApi;
 import io.moralis.evm.api.queryparams.QueryParams;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.TransactionCollection;
 
 import java.time.LocalDateTime;
 
 public class NativeTransactionApiImpl extends ExecutingApi implements NativeTransactionApi {
 
-  private final Address wallet;
+  private final ValidatedAddress wallet;
 
-  public NativeTransactionApiImpl(BaseApi wrappedApi, Address wallet) {
+  public NativeTransactionApiImpl(BaseApi wrappedApi, ValidatedAddress wallet) {
     super(wrappedApi);
     this.wallet = wallet;
   }

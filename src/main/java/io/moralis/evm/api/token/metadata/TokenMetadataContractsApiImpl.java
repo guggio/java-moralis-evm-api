@@ -3,8 +3,8 @@ package io.moralis.evm.api.token.metadata;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.ExecutingApi;
 import io.moralis.evm.api.queryparams.QueryParams;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.Erc20Metadata;
 
 import java.util.Arrays;
@@ -12,16 +12,16 @@ import java.util.List;
 
 public class TokenMetadataContractsApiImpl extends ExecutingApi implements TokenMetadataContractsApi {
 
-  public TokenMetadataContractsApiImpl(BaseApi wrappedApi, List<Address> addresses) {
+  public TokenMetadataContractsApiImpl(BaseApi wrappedApi, List<ValidatedAddress> validatedAddresses) {
     super(wrappedApi);
-    addAddressesAsQueryParam(addresses);
+    addAddressesAsQueryParam(validatedAddresses);
   }
 
-  private void addAddressesAsQueryParam(List<Address> addresses) {
-    if (addresses.isEmpty()) {
+  private void addAddressesAsQueryParam(List<ValidatedAddress> validatedAddresses) {
+    if (validatedAddresses.isEmpty()) {
       throw new IllegalArgumentException("Addresses for the TokenMetadataApi must not be empty!");
     }
-    addQuery(QueryParams.addresses(addresses)); // required query param
+    addQuery(QueryParams.addresses(validatedAddresses)); // required query param
   }
 
   @Override

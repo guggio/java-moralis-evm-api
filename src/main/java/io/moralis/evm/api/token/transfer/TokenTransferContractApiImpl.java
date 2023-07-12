@@ -3,17 +3,17 @@ package io.moralis.evm.api.token.transfer;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.ExecutingApi;
 import io.moralis.evm.api.queryparams.QueryParams;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.Erc20TransactionCollection;
 
 import java.time.LocalDateTime;
 
 public class TokenTransferContractApiImpl extends ExecutingApi implements TokenTransferContractApi {
 
-  private final Address contract;
+  private final ValidatedAddress contract;
 
-  TokenTransferContractApiImpl(BaseApi wrappedApi, Address contract) {
+  TokenTransferContractApiImpl(BaseApi wrappedApi, ValidatedAddress contract) {
     super(wrappedApi);
     this.contract = contract;
   }

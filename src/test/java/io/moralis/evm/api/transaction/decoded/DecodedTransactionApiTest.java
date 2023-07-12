@@ -3,8 +3,8 @@ package io.moralis.evm.api.transaction.decoded;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.DecodedEvent;
 import io.moralis.evm.model.DecodedTransaction;
 import io.moralis.evm.model.DecodedTransactionCollection;
@@ -39,7 +39,7 @@ class DecodedTransactionApiTest {
     DecodedTransactionApi decodedTransactionApi = MoralisApi
         .apiKey(apiKey)
         .transaction()
-        .decodedTransactions(Address.of(WALLET_ADDRESS));
+        .decodedTransactions(ValidatedAddress.of(WALLET_ADDRESS));
 
     assertTrue(decodedTransactionApi instanceof BaseApi);
     BaseApi castedApi = (BaseApi) decodedTransactionApi;
@@ -53,7 +53,7 @@ class DecodedTransactionApiTest {
     DecodedTransactionApi decodedTransactionApi = MoralisApi
         .apiKey(apiKey)
         .transaction()
-        .decodedTransactions(Address.of(WALLET_ADDRESS))
+        .decodedTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16365015L)
         .toBlock(16672386L)
@@ -76,7 +76,7 @@ class DecodedTransactionApiTest {
     DecodedTransactionCollection transactionCollection = MoralisApi
         .apiKey(getApiKey())
         .transaction()
-        .decodedTransactions(Address.of(WALLET_ADDRESS))
+        .decodedTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16672322L)
         .toBlock(16672386L)
@@ -132,7 +132,7 @@ class DecodedTransactionApiTest {
     DecodedTransactionCollection transactionCollection = MoralisApi
         .apiKey(getApiKey())
         .transaction()
-        .decodedTransactions(Address.of(WALLET_ADDRESS))
+        .decodedTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromDate(LocalDateTime.of(2023, Month.JANUARY, 8, 22, 20, 11))
         .toDate(LocalDateTime.of(2023, Month.FEBRUARY, 20, 21, 19, 11))
@@ -151,7 +151,7 @@ class DecodedTransactionApiTest {
     DecodedTransactionApi nativeTransactionApi = MoralisApi
         .apiKey(getApiKey())
         .transaction()
-        .decodedTransactions(Address.of(WALLET_ADDRESS))
+        .decodedTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromDate(LocalDateTime.of(2023, Month.JANUARY, 8, 22, 20, 11))
         .toDate(LocalDateTime.of(2023, Month.FEBRUARY, 20, 21, 19, 11))
@@ -181,7 +181,7 @@ class DecodedTransactionApiTest {
     DecodedTransactionCollection transactionCollection = MoralisApi
         .apiKey(getApiKey())
         .transaction()
-        .decodedTransactions(Address.of(WALLET_ADDRESS))
+        .decodedTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16672386L)
         .toBlock(16672322L)
@@ -196,13 +196,13 @@ class DecodedTransactionApiTest {
 
   @Test
   void shouldFailWithInvalidKey() {
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    DecodedTransactionApi api = MoralisApi
         .apiKey("apiKey")
         .transaction()
-        .decodedTransactions(Address.of(WALLET_ADDRESS))
+        .decodedTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
-        .toBlock(16678160L)
-        .get());
+        .toBlock(16678160L);
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());

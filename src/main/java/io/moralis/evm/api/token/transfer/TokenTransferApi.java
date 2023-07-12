@@ -1,11 +1,11 @@
 package io.moralis.evm.api.token.transfer;
 
-import io.moralis.evm.core.Address;
+import io.moralis.evm.core.ValidatedAddress;
 
 public interface TokenTransferApi {
 
-  TokenTransferWalletApi wallet(Address wallet);
+  TokenTransferWalletApi wallet(ValidatedAddress wallet);
 
-  TokenTransferContractApi contract(Address contract);
+  TokenTransferContractApi contract(ValidatedAddress contract);
 
 }

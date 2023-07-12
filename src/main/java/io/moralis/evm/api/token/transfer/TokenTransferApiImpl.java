@@ -2,7 +2,7 @@ package io.moralis.evm.api.token.transfer;
 
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.BaseApiImpl;
-import io.moralis.evm.core.Address;
+import io.moralis.evm.core.ValidatedAddress;
 
 public class TokenTransferApiImpl extends BaseApiImpl implements TokenTransferApi {
   public TokenTransferApiImpl(BaseApi wrappedApi) {
@@ -15,12 +15,12 @@ public class TokenTransferApiImpl extends BaseApiImpl implements TokenTransferAp
   }
 
   @Override
-  public TokenTransferWalletApi wallet(Address wallet) {
+  public TokenTransferWalletApi wallet(ValidatedAddress wallet) {
     return new TokenTransferWalletApiImpl(this, wallet);
   }
 
   @Override
-  public TokenTransferContractApi contract(Address contract) {
+  public TokenTransferContractApi contract(ValidatedAddress contract) {
     return new TokenTransferContractApiImpl(this, contract);
   }
 }

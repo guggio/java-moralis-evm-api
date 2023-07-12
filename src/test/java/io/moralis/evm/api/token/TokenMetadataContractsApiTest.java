@@ -3,9 +3,10 @@ package io.moralis.evm.api.token;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
+import io.moralis.evm.api.token.metadata.TokenMetadataApi;
 import io.moralis.evm.api.token.metadata.TokenMetadataContractsApi;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.Erc20Metadata;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,7 @@ class TokenMetadataContractsApiTest {
         .apiKey(apiKey)
         .token()
         .metadata()
-        .contracts(List.of(Address.of(SOS_TOKEN_ADDRESS), Address.of(WETH_TOKEN_ADDRESS)));
+        .contracts(List.of(ValidatedAddress.of(SOS_TOKEN_ADDRESS), ValidatedAddress.of(WETH_TOKEN_ADDRESS)));
 
     assertTrue(tokenMetadataContractsApi instanceof BaseApi);
     BaseApi castedApi = (BaseApi) tokenMetadataContractsApi;
@@ -40,11 +41,12 @@ class TokenMetadataContractsApiTest {
   @Test
   void shouldThrowIllegalArgumentExceptionWithEmptyAddressesList() {
     String apiKey = "apiKey";
-    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> MoralisApi
+    TokenMetadataApi api = MoralisApi
         .apiKey(apiKey)
         .token()
-        .metadata()
-        .contracts(List.of()));
+        .metadata();
+    List<ValidatedAddress> emptyList = List.of();
+    IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> api.contracts(emptyList));
     assertEquals("Addresses for the TokenMetadataApi must not be empty!", illegalArgumentException.getMessage());
   }
 
@@ -55,7 +57,7 @@ class TokenMetadataContractsApiTest {
     TokenMetadataContractsApi tokenMetadataContractsApi = MoralisApi.apiKey(apiKey)
         .token()
         .metadata()
-        .contracts(List.of(Address.of(SOS_TOKEN_ADDRESS), Address.of(WETH_TOKEN_ADDRESS)))
+        .contracts(List.of(ValidatedAddress.of(SOS_TOKEN_ADDRESS), ValidatedAddress.of(WETH_TOKEN_ADDRESS)))
         .chain(Chain.ETH);
 
     assertTrue(tokenMetadataContractsApi instanceof BaseApi);
@@ -71,7 +73,7 @@ class TokenMetadataContractsApiTest {
     List<Erc20Metadata> metadatas = MoralisApi.apiKey(getApiKey())
         .token()
         .metadata()
-        .contracts(List.of(Address.of(WETH_TOKEN_ADDRESS), Address.of(SOS_TOKEN_ADDRESS)))
+        .contracts(List.of(ValidatedAddress.of(WETH_TOKEN_ADDRESS), ValidatedAddress.of(SOS_TOKEN_ADDRESS)))
         .chain(Chain.ETH)
         .get();
 
@@ -106,7 +108,7 @@ class TokenMetadataContractsApiTest {
     List<Erc20Metadata> metadatas = MoralisApi.apiKey(getApiKey())
         .token()
         .metadata()
-        .contracts(List.of(Address.of(WETH_TOKEN_ADDRESS)))
+        .contracts(List.of(ValidatedAddress.of(WETH_TOKEN_ADDRESS)))
         .chain(Chain.POLYGON)
         .get();
 
@@ -149,13 +151,13 @@ class TokenMetadataContractsApiTest {
 
   @Test
   void shouldFailWithInvalidKey() {
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    TokenMetadataContractsApi api = MoralisApi
         .apiKey("apiKey")
         .token()
         .metadata()
-        .contracts(List.of(Address.of(SOS_TOKEN_ADDRESS)))
-        .chain(Chain.ETH)
-        .get());
+        .contracts(List.of(ValidatedAddress.of(SOS_TOKEN_ADDRESS)))
+        .chain(Chain.ETH);
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());

@@ -2,21 +2,21 @@ package io.moralis.evm.core;
 
 import java.util.regex.Pattern;
 
-public class Address {
+public class ValidatedAddress {
 
   private static final Pattern ADDRESS_PATTERN = Pattern.compile("0x[a-zA-Z0-9]{40}");
 
   private final String address;
 
-  private Address(String address) {
+  private ValidatedAddress(String address) {
     this.address = address;
   }
 
-  public static Address of(String address) {
+  public static ValidatedAddress of(String address) {
     if (!isAddress(address)) {
       throw new IllegalArgumentException(String.format("The provided address %s does not match the required format!", address));
     }
-    return new Address(address);
+    return new ValidatedAddress(address);
   }
 
   private static boolean isAddress(String address) {

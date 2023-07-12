@@ -4,8 +4,8 @@ import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
 import io.moralis.evm.api.token.transfer.TokenTransferWalletApi;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.Erc20Transaction;
 import io.moralis.evm.model.Erc20TransactionCollection;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +39,7 @@ class TokenTransferWalletApiTest {
         .apiKey(apiKey)
         .token()
         .transfer()
-        .wallet(Address.of(WALLET_ADDRESS));
+        .wallet(ValidatedAddress.of(WALLET_ADDRESS));
 
     assertTrue(tokenTransferWalletApi instanceof BaseApi);
     BaseApi castedApi = (BaseApi) tokenTransferWalletApi;
@@ -54,7 +54,7 @@ class TokenTransferWalletApiTest {
         .apiKey(apiKey)
         .token()
         .transfer()
-        .wallet(Address.of(WALLET_ADDRESS))
+        .wallet(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16365015L)
         .toBlock(16672386L)
@@ -78,7 +78,7 @@ class TokenTransferWalletApiTest {
         .apiKey(getApiKey())
         .token()
         .transfer()
-        .wallet(Address.of(WALLET_ADDRESS))
+        .wallet(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16672322L)
         .toBlock(16672386L)
@@ -115,7 +115,7 @@ class TokenTransferWalletApiTest {
         .apiKey(getApiKey())
         .token()
         .transfer()
-        .wallet(Address.of(WALLET_ADDRESS))
+        .wallet(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16672322L)
         .toBlock(16672386L)
@@ -154,7 +154,7 @@ class TokenTransferWalletApiTest {
         .apiKey(getApiKey())
         .token()
         .transfer()
-        .wallet(Address.of(WALLET_ADDRESS))
+        .wallet(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromDate(LocalDateTime.of(2023, Month.JANUARY, 8, 22, 20, 11))
         .toDate(LocalDateTime.of(2023, Month.FEBRUARY, 20, 21, 19, 11))
@@ -176,7 +176,7 @@ class TokenTransferWalletApiTest {
         .apiKey(getApiKey())
         .token()
         .transfer()
-        .wallet(Address.of(WALLET_ADDRESS))
+        .wallet(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromDate(LocalDateTime.of(2023, Month.JANUARY, 8, 22, 20, 11))
         .toDate(LocalDateTime.of(2023, Month.FEBRUARY, 20, 21, 19, 11))
@@ -209,7 +209,7 @@ class TokenTransferWalletApiTest {
         .apiKey(getApiKey())
         .token()
         .transfer()
-        .wallet(Address.of(WALLET_ADDRESS))
+        .wallet(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16672386L)
         .toBlock(16672322L)
@@ -225,14 +225,14 @@ class TokenTransferWalletApiTest {
 
   @Test
   void shouldFailWithInvalidKey() {
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    TokenTransferWalletApi api = MoralisApi
         .apiKey("apiKey")
         .token()
         .transfer()
-        .wallet(Address.of(WALLET_ADDRESS))
+        .wallet(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
-        .toBlock(16678160L)
-        .get());
+        .toBlock(16678160L);
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());

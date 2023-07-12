@@ -3,9 +3,9 @@ package io.moralis.evm.api.transaction;
 import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
-import io.moralis.evm.api.transaction.nativeTx.NativeTransactionApi;
-import io.moralis.evm.core.Address;
+import io.moralis.evm.api.transaction.nativetx.NativeTransactionApi;
 import io.moralis.evm.core.Chain;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.InternalTransaction;
 import io.moralis.evm.model.Transaction;
 import io.moralis.evm.model.TransactionCollection;
@@ -39,7 +39,7 @@ class NativeTransactionApiTest {
     NativeTransactionApi nativeTransactionApi = MoralisApi
         .apiKey(apiKey)
         .transaction()
-        .nativeTransactions(Address.of(WALLET_ADDRESS));
+        .nativeTransactions(ValidatedAddress.of(WALLET_ADDRESS));
 
     assertTrue(nativeTransactionApi instanceof BaseApi);
     BaseApi castedApi = (BaseApi) nativeTransactionApi;
@@ -53,7 +53,7 @@ class NativeTransactionApiTest {
     NativeTransactionApi nativeTransactionApi = MoralisApi
         .apiKey(apiKey)
         .transaction()
-        .nativeTransactions(Address.of(WALLET_ADDRESS))
+        .nativeTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16365015L)
         .toBlock(16672386L)
@@ -76,7 +76,7 @@ class NativeTransactionApiTest {
     TransactionCollection transactionCollection = MoralisApi
         .apiKey(getApiKey())
         .transaction()
-        .nativeTransactions(Address.of(WALLET_ADDRESS))
+        .nativeTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16672322L)
         .toBlock(16672386L)
@@ -124,7 +124,7 @@ class NativeTransactionApiTest {
     TransactionCollection transactionCollection = MoralisApi
         .apiKey(getApiKey())
         .transaction()
-        .nativeTransactions(Address.of(WALLET_ADDRESS))
+        .nativeTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16672322L)
         .toBlock(blockNumber)
@@ -185,7 +185,7 @@ class NativeTransactionApiTest {
     TransactionCollection transactionCollection = MoralisApi
         .apiKey(getApiKey())
         .transaction()
-        .nativeTransactions(Address.of(WALLET_ADDRESS))
+        .nativeTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16672322L)
         .toBlock(16672386L)
@@ -232,7 +232,7 @@ class NativeTransactionApiTest {
     TransactionCollection transactionCollection = MoralisApi
         .apiKey(getApiKey())
         .transaction()
-        .nativeTransactions(Address.of(WALLET_ADDRESS))
+        .nativeTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromDate(LocalDateTime.of(2023, Month.JANUARY, 8, 22, 20, 11))
         .toDate(LocalDateTime.of(2023, Month.FEBRUARY, 20, 21, 19, 11))
@@ -252,7 +252,7 @@ class NativeTransactionApiTest {
     NativeTransactionApi nativeTransactionApi = MoralisApi
         .apiKey(getApiKey())
         .transaction()
-        .nativeTransactions(Address.of(WALLET_ADDRESS))
+        .nativeTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromDate(LocalDateTime.of(2023, Month.JANUARY, 8, 22, 20, 11))
         .toDate(LocalDateTime.of(2023, Month.FEBRUARY, 20, 21, 19, 11))
@@ -284,7 +284,7 @@ class NativeTransactionApiTest {
     TransactionCollection transactionCollection = MoralisApi
         .apiKey(getApiKey())
         .transaction()
-        .nativeTransactions(Address.of(WALLET_ADDRESS))
+        .nativeTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
         .fromBlock(16672386L)
         .toBlock(16672322L)
@@ -300,13 +300,13 @@ class NativeTransactionApiTest {
 
   @Test
   void shouldFailWithInvalidKey() {
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    NativeTransactionApi api = MoralisApi
         .apiKey("apiKey")
         .transaction()
-        .nativeTransactions(Address.of(WALLET_ADDRESS))
+        .nativeTransactions(ValidatedAddress.of(WALLET_ADDRESS))
         .chain(Chain.ETH)
-        .toBlock(16678160L)
-        .get());
+        .toBlock(16678160L);
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());

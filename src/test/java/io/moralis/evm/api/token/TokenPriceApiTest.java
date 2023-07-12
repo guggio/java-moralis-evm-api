@@ -4,9 +4,9 @@ import io.moralis.evm.api.BaseApi;
 import io.moralis.evm.api.MoralisApi;
 import io.moralis.evm.api.exception.ConnectionException;
 import io.moralis.evm.api.token.price.TokenPriceApi;
-import io.moralis.evm.core.Address;
 import io.moralis.evm.core.Chain;
 import io.moralis.evm.core.Exchange;
+import io.moralis.evm.core.ValidatedAddress;
 import io.moralis.evm.model.TokenPrice;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,7 +29,7 @@ class TokenPriceApiTest {
 
   @ParameterizedTest
   @MethodSource("getValidContractChainExchangeParams")
-  void shouldCreateTokenPriceApi(Address contract, Chain chain, Exchange exchange, String expectedUrl) {
+  void shouldCreateTokenPriceApi(ValidatedAddress contract, Chain chain, Exchange exchange, String expectedUrl) {
     String apiKey = "apiKey";
     TokenPriceApi tokenPriceApi = MoralisApi
         .apiKey(apiKey)
@@ -50,7 +50,7 @@ class TokenPriceApiTest {
     TokenPrice tokenPrice = MoralisApi
         .apiKey(getApiKey())
         .token()
-        .price(Address.of(USDC_ETH_ADDRESS))
+        .price(ValidatedAddress.of(USDC_ETH_ADDRESS))
         .chain(Chain.ETH)
         .exchange(Exchange.UNISWAP_V2)
         .toBlock(16686700L)
@@ -71,7 +71,7 @@ class TokenPriceApiTest {
     TokenPrice tokenPrice = MoralisApi
         .apiKey(getApiKey())
         .token()
-        .price(Address.of(USDC_ETH_ADDRESS))
+        .price(ValidatedAddress.of(USDC_ETH_ADDRESS))
         .toBlock(16686700L)
         .get();
 
@@ -90,7 +90,7 @@ class TokenPriceApiTest {
     TokenPrice tokenPrice = MoralisApi
         .apiKey(getApiKey())
         .token()
-        .price(Address.of(USDC_BSC_ADDRESS))
+        .price(ValidatedAddress.of(USDC_BSC_ADDRESS))
         .chain(Chain.BSC)
         .exchange(Exchange.PANCAKESWAP_V2)
         .toBlock(25899865L)
@@ -111,7 +111,7 @@ class TokenPriceApiTest {
     TokenPrice tokenPrice = MoralisApi
         .apiKey(getApiKey())
         .token()
-        .price(Address.of(USDC_POLYGON_ADDRESS))
+        .price(ValidatedAddress.of(USDC_POLYGON_ADDRESS))
         .chain(Chain.POLYGON)
         .exchange(Exchange.QUICKSWAP)
         .toBlock(39599000L)
@@ -129,11 +129,11 @@ class TokenPriceApiTest {
   @Test
   void shouldFailWithInvalidKey() {
     String apiKey = getApiKey();
-    ConnectionException connectionException = assertThrows(ConnectionException.class, () -> MoralisApi
+    TokenPriceApi api = MoralisApi
         .apiKey(apiKey + "a")
         .token()
-        .price(Address.of(USDC_ETH_ADDRESS))
-        .get());
+        .price(ValidatedAddress.of(USDC_ETH_ADDRESS));
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(401, connectionException.getStatusCode());
     assertEquals("Invalid key", connectionException.getApiErrorMessage().getMessage());
@@ -142,15 +142,14 @@ class TokenPriceApiTest {
 
   @ParameterizedTest
   @MethodSource("getIllegalChainExchangeCombinations")
-  void shouldFailWithIllegalChainExchangeCombination(Address contract, Chain chain, Exchange exchange) {
-    ConnectionException connectionException = assertThrows(ConnectionException.class,
-        () -> MoralisApi
-            .apiKey(getApiKey())
-            .token()
-            .price(contract)
-            .chain(chain)
-            .exchange(exchange)
-            .get());
+  void shouldFailWithIllegalChainExchangeCombination(ValidatedAddress contract, Chain chain, Exchange exchange) {
+    TokenPriceApi api = MoralisApi
+        .apiKey(getApiKey())
+        .token()
+        .price(contract)
+        .chain(chain)
+        .exchange(exchange);
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(400, connectionException.getStatusCode());
     assertEquals("No valid exchange found for the provided chain and/or to_block", connectionException.getApiErrorMessage().getMessage());
@@ -159,13 +158,12 @@ class TokenPriceApiTest {
 
   @Test
   void shouldFailWhenNoPoolsWereFound() {
-    ConnectionException connectionException = assertThrows(ConnectionException.class,
-        () -> MoralisApi
-            .apiKey(getApiKey())
-            .token()
-            .price(Address.of(USDC_ETH_ADDRESS))
-            .chain(Chain.POLYGON)
-            .get());
+    TokenPriceApi api = MoralisApi
+        .apiKey(getApiKey())
+        .token()
+        .price(ValidatedAddress.of(USDC_ETH_ADDRESS))
+        .chain(Chain.POLYGON);
+    ConnectionException connectionException = assertThrows(ConnectionException.class, api::get);
 
     assertEquals(404, connectionException.getStatusCode());
     assertEquals("No pools found with enough liquidity, to calculate the price", connectionException.getApiErrorMessage().getMessage());
@@ -178,20 +176,20 @@ class TokenPriceApiTest {
 
   public static Stream<Arguments> getValidContractChainExchangeParams() {
     return Stream.of(
-        Arguments.of(Address.of(USDC_ETH_ADDRESS), Chain.ETH, Exchange.UNISWAP_V2, "https://deep-index.moralis.io/api/v2/erc20/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/price?chain=eth&exchange=uniswap-v2&to_block=16686700"),
-        Arguments.of(Address.of(USDC_ETH_ADDRESS), Chain.ETH, Exchange.UNISWAP_V3, "https://deep-index.moralis.io/api/v2/erc20/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/price?chain=eth&exchange=uniswap-v3&to_block=16686700"),
-        Arguments.of(Address.of(USDC_ETH_ADDRESS), Chain.ETH, Exchange.SUSHISWAP_V2, "https://deep-index.moralis.io/api/v2/erc20/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/price?chain=eth&exchange=sushiswap-v2&to_block=16686700"),
-        Arguments.of(Address.of(USDC_BSC_ADDRESS), Chain.BSC, Exchange.PANCAKESWAP_V1, "https://deep-index.moralis.io/api/v2/erc20/0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d/price?chain=bsc&exchange=pancakeswap-v1&to_block=16686700"),
-        Arguments.of(Address.of(USDC_BSC_ADDRESS), Chain.BSC, Exchange.PANCAKESWAP_V2, "https://deep-index.moralis.io/api/v2/erc20/0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d/price?chain=bsc&exchange=pancakeswap-v2&to_block=16686700"),
-        Arguments.of(Address.of(USDC_POLYGON_ADDRESS), Chain.POLYGON, Exchange.QUICKSWAP, "https://deep-index.moralis.io/api/v2/erc20/0x2791bca1f2de4661ed88a30c99a7a9449aa84174/price?chain=polygon&exchange=quickswap&to_block=16686700")
+        Arguments.of(ValidatedAddress.of(USDC_ETH_ADDRESS), Chain.ETH, Exchange.UNISWAP_V2, "https://deep-index.moralis.io/api/v2/erc20/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/price?chain=eth&exchange=uniswap-v2&to_block=16686700"),
+        Arguments.of(ValidatedAddress.of(USDC_ETH_ADDRESS), Chain.ETH, Exchange.UNISWAP_V3, "https://deep-index.moralis.io/api/v2/erc20/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/price?chain=eth&exchange=uniswap-v3&to_block=16686700"),
+        Arguments.of(ValidatedAddress.of(USDC_ETH_ADDRESS), Chain.ETH, Exchange.SUSHISWAP_V2, "https://deep-index.moralis.io/api/v2/erc20/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/price?chain=eth&exchange=sushiswap-v2&to_block=16686700"),
+        Arguments.of(ValidatedAddress.of(USDC_BSC_ADDRESS), Chain.BSC, Exchange.PANCAKESWAP_V1, "https://deep-index.moralis.io/api/v2/erc20/0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d/price?chain=bsc&exchange=pancakeswap-v1&to_block=16686700"),
+        Arguments.of(ValidatedAddress.of(USDC_BSC_ADDRESS), Chain.BSC, Exchange.PANCAKESWAP_V2, "https://deep-index.moralis.io/api/v2/erc20/0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d/price?chain=bsc&exchange=pancakeswap-v2&to_block=16686700"),
+        Arguments.of(ValidatedAddress.of(USDC_POLYGON_ADDRESS), Chain.POLYGON, Exchange.QUICKSWAP, "https://deep-index.moralis.io/api/v2/erc20/0x2791bca1f2de4661ed88a30c99a7a9449aa84174/price?chain=polygon&exchange=quickswap&to_block=16686700")
     );
   }
 
   public static Stream<Arguments> getIllegalChainExchangeCombinations() {
     return Stream.of(
-        Arguments.of(Address.of(USDC_BSC_ADDRESS), Chain.BSC, Exchange.QUICKSWAP),
-        Arguments.of(Address.of(USDC_ETH_ADDRESS), Chain.ETH, Exchange.PANCAKESWAP_V2),
-        Arguments.of(Address.of(USDC_POLYGON_ADDRESS), Chain.POLYGON, Exchange.PANCAKESWAP_V2)
+        Arguments.of(ValidatedAddress.of(USDC_BSC_ADDRESS), Chain.BSC, Exchange.QUICKSWAP),
+        Arguments.of(ValidatedAddress.of(USDC_ETH_ADDRESS), Chain.ETH, Exchange.PANCAKESWAP_V2),
+        Arguments.of(ValidatedAddress.of(USDC_POLYGON_ADDRESS), Chain.POLYGON, Exchange.PANCAKESWAP_V2)
     );
   }
 }
