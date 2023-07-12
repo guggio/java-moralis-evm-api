@@ -1,6 +1,8 @@
 plugins {
     id 'java-library'
     id 'jacoco'
+
+    id "org.sonarqube" version "4.2.1.3168"
 }
 
 repositories {
@@ -24,12 +26,23 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    systemProperty "API_KEY", System.getProperty("API_KEY")
+    testLogging {
+        events("passed", "skipped", "failed")
+        exceptionFormat("full")
+        showStandardStreams(false)
+    }
 }
 
-group = 'io.moralis.evm'
-version = '1.0-SNAPSHOT'
-description = 'java-moralis-evm-api'
+sonarqube {
+    properties {
+        property "sonar.host", "https://sonarcloud.io"
+        property "sonar.organization", "guggio"
+        property "sonar.projectKey", "guggio_$artifactId"
+    }
+}
+
+group = groupId
+version = artifactVersion
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 tasks.withType(JavaCompile).configureEach {
