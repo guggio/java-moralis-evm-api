@@ -37,7 +37,7 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
 
       - name: Sonar Analysis
-        run: ./gradlew build sonar --info
+        run: ./gradlew sonar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
